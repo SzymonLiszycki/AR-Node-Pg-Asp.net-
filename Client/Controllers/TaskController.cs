@@ -52,7 +52,7 @@ namespace Client.Controllers
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                var task = JsonConvert.DeserializeObject<TaskModel>(content);
+                TaskModel task = JsonConvert.DeserializeObject<TaskModel>(content);
 
                 return View(task);
             }
@@ -60,13 +60,11 @@ namespace Client.Controllers
             return View();
         }
 
-        // GET: TaskController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: TaskController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(TaskModel task)
@@ -124,7 +122,7 @@ namespace Client.Controllers
                     return RedirectToAction(nameof(Index));
                 }
 
-                return View();
+                return View(task);
             }
             catch
             {
@@ -132,7 +130,6 @@ namespace Client.Controllers
             }
         }
 
-        // GET: TaskController/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
             var response = await _httpClient.GetAsync($"tasks/{id}");
@@ -140,7 +137,7 @@ namespace Client.Controllers
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                var task = JsonConvert.DeserializeObject<Task>(content);
+                TaskModel task = JsonConvert.DeserializeObject<TaskModel>(content);
 
                 return View(task);
             }
@@ -148,7 +145,6 @@ namespace Client.Controllers
             return View();
         }
 
-        // POST: TaskController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Delete(int id, IFormCollection collection)
@@ -169,5 +165,6 @@ namespace Client.Controllers
                 return View();
             }
         }
+
     }
 }

@@ -1,12 +1,11 @@
 ﻿@model Client.Models.TaskModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edytuj";
 }
 
-<h1>Edit</h1>
+<h1 class="bg-light border rounded">Edytuj</h1>
 
-<h4>TaskModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -23,16 +22,19 @@
                     <input class="form-check-input" asp-for="completed" /> @Html.DisplayNameFor(model => model.completed)
                 </label>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
+            <div class="row">
+                <div class="form-group col-auto m-1">
+                    <input type="submit" value="Save" class="btn btn-warning" />
+                </div>
+                <div class="col-auto m-1">
+                    <a asp-action="Index" class="btn btn-dark">Back to List</a>
+                </div>
+            </div>           
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

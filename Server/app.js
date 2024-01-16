@@ -1,21 +1,26 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const { Pool } = require('pg');
+const fs = require('fs');
 
 const app = express();
-const port = 3000;
 
 app.use(bodyParser.json());
 
- const pool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'ToDoDb',
-    password: 'conn809',
-    port: 5432,
- });
+const rawdata = fs.readFileSync('config.json');
+const config = JSON.parse(rawdata);
+const dbConfig = config.dbConfig;
+const serverConfig = config.serverConfig;
 
- pool.query(`
+const pool = new Pool({
+    user: dbConfig.user,
+    host: dbConfig.host,
+    database: dbConfig.database,
+    password: dbConfig.password,
+    port: dbConfig.port,
+});
+
+pool.query(`
    CREATE TABLE IF NOT EXISTS tasks (
      id SERIAL PRIMARY KEY,
      title VARCHAR(100) NOT NULL,
@@ -23,14 +28,17 @@ app.use(bodyParser.json());
    )
  `);
 
+const ip = serverConfig.ip || 'localhost';  
+const port = serverConfig.port || 3000;      
+
 app.get('/tasks', async (req, res) => {
-     try {
-         const { rows } = await pool.query('SELECT * FROM tasks');
-         res.json({ tasks: rows });
-     } catch (error) {
-         console.error(error);
-         res.status(500).json({ error: 'Internal Server Error' });
-     }
+    try {
+        const { rows } = await pool.query('SELECT * FROM tasks');
+        res.json({ tasks: rows });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 });
 
 app.post('/tasks', async (req, res) => {
@@ -100,6 +108,6 @@ app.delete('/tasks/:id', async (req, res) => {
     }
 });
 
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+app.listen(port, ip, () => {
+    console.log(`Server is running on http://${ip}:${port}`);
 });

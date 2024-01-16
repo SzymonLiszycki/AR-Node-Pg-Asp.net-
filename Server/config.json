@@ -1,0 +1,13 @@
+{
+  "dbConfig": {
+    "user": "",
+    "host": "",
+    "database": "",
+    "password": "",
+    "port": 5432
+  },
+  "serverConfig": {
+    "ip": "localhost", 
+    "port": 3000 
+  }
+}

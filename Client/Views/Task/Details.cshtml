@@ -1,13 +1,12 @@
 ﻿@model Client.Models.TaskModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Szczegóły";
 }
 
-<h1>Details</h1>
+<h1 class="border rounded bg_light">Szczegóły</h1>
 
 <div>
-    <h4>TaskModel</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -26,5 +25,5 @@
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Powrót</a>
 </div>

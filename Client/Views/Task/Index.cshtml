@@ -1,15 +1,15 @@
-﻿@model IEnumerable<Client.Models.TaskModel>
+﻿@model IEnumerable<TaskModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Lista zadań";
 }
 
-<h1>Index</h1>
+<h1 class="bg-light border rounded p-1">Lista zadań</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-success">Dodaj</a>
 </p>
-<table class="table">
+<table class="table table-hover table-bordered">
     <thead>
         <tr>
             <th>
@@ -23,10 +23,7 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
-             <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
+        <tr>            
             <td>
                 @Html.DisplayFor(modelItem => item.title)
             </td>
@@ -34,9 +31,9 @@
                 @Html.DisplayFor(modelItem => item.completed)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning m-1">Edytuj</a> 
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info m-1">Szczegóły</a> 
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger m-1">Usuń</a>
             </td>
         </tr>
 }
