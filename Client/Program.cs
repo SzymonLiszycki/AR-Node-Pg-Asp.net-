@@ -1,9 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Client.Data;
+
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<ClientContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("ClientContext") ?? throw new InvalidOperationException("Connection string 'ClientContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -27,6 +24,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Task}/{action=Index}/{id?}");
 
 app.Run();

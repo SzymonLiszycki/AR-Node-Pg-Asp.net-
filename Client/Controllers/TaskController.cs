@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using Client.Models;
 
 namespace Client.Controllers
 {
@@ -17,20 +18,30 @@ namespace Client.Controllers
             _httpClient = new HttpClient { BaseAddress = new System.Uri("http://localhost:3000/") };
         }
 
-        // GET: TaskController
         public async Task<ActionResult> Index()
         {
-            var response = await _httpClient.GetAsync("tasks");
-
-            if (response.IsSuccessStatusCode)
+            try
             {
-                var content = await response.Content.ReadAsStringAsync();
-                var tasks = JsonConvert.DeserializeObject<IEnumerable<Task>>(content);
+                var response = await _httpClient.GetAsync("tasks");
 
-                return View(tasks);
+                if (response.IsSuccessStatusCode)
+                {                 
+                    var content = await response.Content.ReadAsStringAsync();
+                    var taskResponse = JsonConvert.DeserializeObject<TaskResponse>(content);
+
+                    return View(taskResponse.Tasks);
+                }
+                else
+                {
+                  
+                    return View("Error");
+                }
             }
-
-            return View();
+            catch (Exception ex)
+            {
+                
+                return View("Error");
+            }
         }
 
         // GET: TaskController/Details/5
@@ -41,7 +52,7 @@ namespace Client.Controllers
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                var task = JsonConvert.DeserializeObject<Task>(content);
+                var task = JsonConvert.DeserializeObject<TaskModel>(content);
 
                 return View(task);
             }
@@ -58,7 +69,7 @@ namespace Client.Controllers
         // POST: TaskController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Task task)
+        public async Task<ActionResult> Create(TaskModel task)
         {
             try
             {
@@ -88,7 +99,7 @@ namespace Client.Controllers
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                var task = JsonConvert.DeserializeObject<Task>(content);
+                var task = JsonConvert.DeserializeObject<TaskModel>(content);
 
                 return View(task);
             }
@@ -99,7 +110,7 @@ namespace Client.Controllers
         // POST: TaskController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int id, Task task)
+        public async Task<ActionResult> Edit(int id, TaskModel task)
         {
             try
             {

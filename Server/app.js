@@ -7,21 +7,21 @@ const port = 3000;
 
 app.use(bodyParser.json());
 
- //const pool = new Pool({
- //   user: 'postgres',
- //   host: 'localhost',
- //   database: 'test',
- //   password: 'conn809',
- //   port: 5432,
- //});
+ const pool = new Pool({
+    user: 'postgres',
+    host: 'localhost',
+    database: 'ToDoDb',
+    password: 'conn809',
+    port: 5432,
+ });
 
- //pool.query(`
- //  CREATE TABLE IF NOT EXISTS tasks (
- //    id SERIAL PRIMARY KEY,
- //    title VARCHAR(100) NOT NULL,
- //    completed BOOLEAN DEFAULT false
- //  )
- //`);
+ pool.query(`
+   CREATE TABLE IF NOT EXISTS tasks (
+     id SERIAL PRIMARY KEY,
+     title VARCHAR(100) NOT NULL,
+     completed BOOLEAN DEFAULT false
+   )
+ `);
 
 app.get('/tasks', async (req, res) => {
      try {
